@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    >
+    <group>
+        <item
+            android:id="@+id/menu_nav_dashboard"
+            android:title="@string/menu_dash"
+            android:icon="@drawable/ic_dashboard_black_24dp"/>
+        <item
+            android:id="@+id/menu_nav_towtach"
+            android:title="@string/menu_towtach"
+            android:icon="@drawable/ic_live_tv_black_24dp"/>
+        <item
+            android:id="@+id/menu_nav_season"
+            android:title="@string/menu_season"
+            android:icon="@drawable/ic_tv_black_24dp"/>
+    </group>
+    <group
+        android:menuCategory="secondary">
+        <item
+            android:id="@+id/menu_nav_settings"
+            android:checkable="false"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/menu_settings" />
+    </group>
+</menu>

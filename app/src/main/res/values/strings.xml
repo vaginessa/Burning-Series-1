@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Bruning Series</string>
+    <string name="menu_season">Serien</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_submenu_settings">Einstellungen</string>
+    <string name="menu_submenu_season">Serien</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Seasons_wait">Warte auf Burning Series</string>
+    <string name="fragment_seasons_serach_hint">Suche hier deine Serie</string>
+    <string name="season_example_text">Dein Serien Name</string>
+    <string name="Episods_wait">Warte auf Burning Series</string>
+    <string name="ep_spinner">Staffel</string>
+    <string name="ep_spinner_special">Special</string>
+    <string name="Episods_wait_season">Sammle Episoden für Staffel</string>
+    <string name="fragment_hoster_wait">Sammle Hoster für Video Streaming</string>
+    <string name="host_bad_request">Hoster nicht verfügbar</string>
+    <string name="host_ups_error">Ups da ist uns ein Fehler unterlaufen</string>
+    <string name="menu_towtach">Zu Sehen</string>
+    <string name="title_activity_season">Season</string>
+    <string name="ep_info_tab">Info</string>
+    <string name="search_label">Suche nach Serien</string>
+    <string name="search_hint">Suchen</string>
+    <string name="crash_toast_text">Wir senden grade den Fehler an die Entwickler</string>
+    <string name="menu_dash">Dashboard</string>
+    <string name="crash_dialog_title">Send me the Crash</string>
+    <string name="crash_dialog_ok_toast">Send ok</string>
+    <string name="new_ep">Neue Epesoden</string>
+</resources>

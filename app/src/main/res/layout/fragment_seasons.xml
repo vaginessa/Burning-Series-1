@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="to.bs.bruningseriesmeterial.fragments.Seasons"
+    android:id="@+id/fragment_seasons">
+
+    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
+        android:id="@+id/fragment_seasons_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="10dp"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbars="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+
+
+    </in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView>
+
+
+    <!--<ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_seasons_listview">
+
+    </ListView>-->
+
+
+</RelativeLayout>
