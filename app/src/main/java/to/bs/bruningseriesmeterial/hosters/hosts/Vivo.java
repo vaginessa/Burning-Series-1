@@ -1,4 +1,4 @@
-package to.bs.bruningseriesmeterial.Hoster.hosts;
+package to.bs.bruningseriesmeterial.hosters.hosts;
 
 
 import android.util.Base64;

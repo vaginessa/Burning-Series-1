@@ -1,19 +1,9 @@
-package to.bs.bruningseriesmeterial.Hoster.hosts;
+package to.bs.bruningseriesmeterial.hosters.hosts;
 
 
-
-import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import to.bs.bruningseriesmeterial.Utils.Episode;
 
 /**
  * Created by Phillipp on 30.04.2017.

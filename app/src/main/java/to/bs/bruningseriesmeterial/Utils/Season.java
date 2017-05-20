@@ -13,10 +13,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import to.bs.bruningseriesmeterial.MainActivity;
-import to.bs.bruningseriesmeterial.R;
-import to.bs.bruningseriesmeterial.adapter.SeasonAdapter;
-
-import static to.bs.bruningseriesmeterial.R.layout.season;
 
 /**
  * Created by Phillipp on 10.04.2017.
@@ -114,12 +110,13 @@ public class Season {
     }
 
     public int getEps() {
-        return eps;
+        return MainActivity.getInstance().getDbHelper().getEpisodes(getName());
     }
 
     public int getEpsw() {
-        return epsw;
+        return MainActivity.getInstance().getDbHelper().getWatchedEpisodes(getName());
     }
+
 
     public class DownloadIonformations extends AsyncTask<Void, Void, Void> {
 
@@ -165,26 +162,17 @@ public class Season {
 
                     if (!special) {
                         doc = Jsoup.connect(getUrl() + "/" + (i + 1)).userAgent(RandomUserAgent.getRandomUserAgent()).get();
+                    }else{
+                        doc = Jsoup.connect(getUrl() + "/" + (i + 1)).userAgent(RandomUserAgent.getRandomUserAgent()).get();
                     }
                     if (!special) {
                         body = doc.body();
                         for (Element episodes : body.getElementsByTag("tr")) {
-                            String epName = "";
-                            String link = episodes.getElementsByTag("td").get(1).select("a").attr("href");;
-                            if(episodes.getElementsByTag("td").get(1).select("a.strong").size() > 0){
-                                epName = episodes.getElementsByTag("td").get(1).getElementsByTag("strong").first().text();
-                            }else{
-                                epName = episodes.getElementsByTag("td").get(1).select("a").attr("title");
-                            }
-
-                            String EngEpName = "";
-                            if(episodes.getElementsByTag("td").get(1).select("a.span").size() > 0){
-                                EngEpName = episodes.getElementsByTag("td").get(1).getElementsByTag("span").get(0).getElementsByTag("i").first().text();
-                            }
-
-                            if(MainActivity.getInstance().getDbHelper().isInsertEpisode(getName(),epName)){
-                              epsw++;
-                            }
+                            eps++;
+                        }
+                    }else{
+                        body = doc.body();
+                        for (Element episodes : body.getElementsByTag("tr")) {
                             eps++;
                         }
                     }
@@ -195,6 +183,11 @@ public class Season {
             }
             cancel(true);
             return null;
+        }
+
+        @Override
+        protected void onCancelled(Void aVoid) {
+            MainActivity.getInstance().getDbHelper().updateCount(getName(),eps);
         }
     }
 }

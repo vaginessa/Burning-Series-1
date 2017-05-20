@@ -1,6 +1,5 @@
-package to.bs.bruningseriesmeterial.fragments.Hoster;
+package to.bs.bruningseriesmeterial.fragments.frgamenthoster;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,18 +12,15 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import java.io.IOException;
 
-import to.bs.bruningseriesmeterial.Hoster.hosts.VideoHost;
-import to.bs.bruningseriesmeterial.Hoster.hosts.Vivo;
-import to.bs.bruningseriesmeterial.Hoster.hosts.openload;
+import to.bs.bruningseriesmeterial.hosters.hosts.VideoHost;
+import to.bs.bruningseriesmeterial.hosters.hosts.openload;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
-import to.bs.bruningseriesmeterial.fragments.CapatchCheck;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+
 public class OpenLoad extends Fragment {
     private static final String OpenLoad = "URL";
 
@@ -86,13 +82,15 @@ public class OpenLoad extends Fragment {
                 return;
             }
             try {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+                MainActivity.getInstance().getDbHelper().addEpisode(episode.getSeason().getName(),episode.getGerName());
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(host.getStream(Newurl)));
                 intent.setDataAndType(Uri.parse(host.getStream(Newurl)), "video/mp4");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 MainActivity.getInstance().startActivity(intent);
-                MainActivity.getInstance().getDbHelper().addEpisode(episode.getSeason().getName(),episode.getGerName());
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragmentManager.findFragmentByTag("EP"),"stream").addToBackStack(null).commit();
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {

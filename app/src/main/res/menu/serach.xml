@@ -7,6 +7,9 @@
         android:title="search"
         app:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView"
+        android:searchSuggestAuthority="to.bs.bruningseriesmeterial"
+        android:searchSuggestSelection=" ?"
+
 
         />
 </menu>

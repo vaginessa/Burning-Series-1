@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="to.bs.bruningseriesmeterial.fragments.Hoster.OpenLoad">
+    tools:context="to.bs.bruningseriesmeterial.fragments.frgamenthoster.OpenLoad">
     <WebView
         android:id="@+id/openload_VIEW"
         android:layout_width="match_parent"

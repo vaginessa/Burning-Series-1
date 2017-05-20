@@ -2,13 +2,14 @@ package to.bs.bruningseriesmeterial.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -17,21 +18,19 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import to.bs.bruningseriesmeterial.Hoster.hosts.VideoHost;
-import to.bs.bruningseriesmeterial.Hoster.hosts.Vivo;
-import to.bs.bruningseriesmeterial.Hoster.hosts.openload;
+import to.bs.bruningseriesmeterial.hosters.hosts.VideoHost;
+import to.bs.bruningseriesmeterial.hosters.hosts.Vivo;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
-import to.bs.bruningseriesmeterial.fragments.Hoster.OpenLoad;
-
-import static to.bs.bruningseriesmeterial.R.layout.episode;
+import to.bs.bruningseriesmeterial.fragments.frgamenthoster.OpenLoad;
 
 public class CapatchCheck extends Fragment {
     private static final String Captcha = "URL";
 
     private String url;
     private static Episode episode;
+    private VideoHost host;
 
     public static CapatchCheck newInstance(String newURL,Episode ep) {
         CapatchCheck fragment = new CapatchCheck();
@@ -61,46 +60,49 @@ public class CapatchCheck extends Fragment {
         view.loadUrl(url);
         view.setWebViewClient(new WebViewClient(){
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.contains("openload.co")){
-                    OpenLoad fragment = OpenLoad.newInstance(url, episode);
+            public void onPageFinished(WebView view, String url) {
+                if(!url.contains("bs.to")){
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"OpenLoad").addToBackStack("S").commit();
-                }else{
-                    String Newurl = url;
-                    VideoHost host = getHost(Newurl);
-                    if(host == null){
-                        MainActivity.getInstance().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(MainActivity.getInstance(), R.string.host_bad_request,Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        Uri uri = Uri.parse(Newurl);
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
-                        browserIntent.setData(uri);
-                        MainActivity.getInstance().startActivity(browserIntent);
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.flContent, fragmentManager.findFragmentByTag("EP")).addToBackStack("S").commit();
-                        return true;
-                    }
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(host.getStream(Newurl)));
-                        intent.setDataAndType(Uri.parse(host.getStream(Newurl)), "video/mp4");
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        MainActivity.getInstance().startActivity(intent);
-                        MainActivity.getInstance().getDbHelper().addEpisode(episode.getSeason().getName(),episode.getGerName());
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.flContent, fragmentManager.findFragmentByTag("EP")).addToBackStack("S").commit();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    fragmentManager.popBackStack();
+                    if(url.contains("openload.co")){
+                        OpenLoad fragment = OpenLoad.newInstance(url, episode);
+                        fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"OpenLoad").addToBackStack("S").commit();
+                    }else{
+                        host = getHost(url);
+                        if(host == null){
+                            MainActivity.getInstance().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.getInstance(), R.string.host_bad_request,Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            Uri uri = Uri.parse(url);
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+                            browserIntent.setData(uri);
+                            MainActivity.getInstance().startActivity(browserIntent);
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction().replace(R.id.flContent, fragmentManager.findFragmentByTag("EP")).addToBackStack("S").commit();
+                            return;
+                        }
+                        try {
+                            getURL url1 = new getURL();
+                            url1.execute(url);
+                            String uri = url1.get();
+                            url1.cancel(true);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                            intent.setDataAndType(Uri.parse(uri), "video/mp4");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            MainActivity.getInstance().startActivity(intent);
+                            MainActivity.getInstance().getDbHelper().addEpisode(episode.getSeason().getName(),episode.getGerName());
 
+                            return;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
-                return super.shouldOverrideUrlLoading(view, url);
-
             }
         });
 
@@ -112,6 +114,18 @@ public class CapatchCheck extends Fragment {
             host = new Vivo();
         }
         return host;
+    }
+    private class getURL extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                return host.getStream(params[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
     }
 
 }

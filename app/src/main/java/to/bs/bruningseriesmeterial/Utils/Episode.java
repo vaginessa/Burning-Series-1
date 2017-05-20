@@ -2,7 +2,7 @@ package to.bs.bruningseriesmeterial.Utils;
 
 import java.util.ArrayList;
 
-import to.bs.bruningseriesmeterial.Hoster.HostFetcher;
+import to.bs.bruningseriesmeterial.hosters.HostFetcher;
 
 /**
  * Created by Phillipp on 10.04.2017.

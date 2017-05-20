@@ -7,8 +7,8 @@ android {
         applicationId "to.bs.bruningseriesmeterial"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.2"
+        versionCode 5
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -54,5 +54,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:10.2.1'
     compile 'com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.4'
     compile 'ch.acra:acra:4.9.2'
+    compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
     testCompile 'junit:junit:4.12'
 }

@@ -55,7 +55,8 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
                     s.setToWatch(false);
                     MainActivity.getInstance().getDbHelper().removeSeasonToWatch(s.getName());
                 }else{
-                    MainActivity.getInstance().getDbHelper().addSeasonToWatch(s.getName(),s.getGerne(),s.getDescription());
+                    s.runInfo();
+                    MainActivity.getInstance().getDbHelper().addSeasonToWatch(s.getName(),s.getGerne(),s.getDescription(),s.getEps());
                     s.setToWatch(true);
                 }
             }
@@ -137,7 +138,7 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
         public void recyclerViewListClicked(View v, int position) {
             Episods fragment = Episods.newInstance(allseasons.get(position));
             FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
         }
     }
 

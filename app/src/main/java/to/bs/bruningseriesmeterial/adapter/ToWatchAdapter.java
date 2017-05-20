@@ -55,8 +55,9 @@ public class ToWatchAdapter extends RecyclerView.Adapter<ToWatchAdapter.ViewHold
             public void onClick(View v) {
                 if(s.isWatched()){
                     s.setWatched(false);
+                    s.runInfo();
                     MainActivity.getInstance().getDbHelper().removeSeason(s.getName());
-                    MainActivity.getInstance().getDbHelper().addSeasonToWatch(s.getName(),s.getGerne(),s.getDescription());
+                    MainActivity.getInstance().getDbHelper().addSeasonToWatch(s.getName(),s.getGerne(),s.getDescription(),s.getEps());
                 }else{
                     MainActivity.getInstance().getDbHelper().removeSeasonToWatch(s.getName());
                     MainActivity.getInstance().getDbHelper().addSeason(s.getName());
@@ -96,6 +97,7 @@ public class ToWatchAdapter extends RecyclerView.Adapter<ToWatchAdapter.ViewHold
 
     @Override
     public int getPositionForSection(int sectionIndex) {
+        if(mSectionPositions.size() == 0) return 0;
         return mSectionPositions.get(sectionIndex);
     }
 
@@ -128,7 +130,7 @@ public class ToWatchAdapter extends RecyclerView.Adapter<ToWatchAdapter.ViewHold
         public void recyclerViewListClicked(View v, int position) {
             Episods fragment = Episods.newInstance(allseasons.get(position));
             FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
         }
     }
 

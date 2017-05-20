@@ -1,4 +1,4 @@
-package to.bs.bruningseriesmeterial.Hoster.hosts;
+package to.bs.bruningseriesmeterial.hosters.hosts;
 
 import java.io.IOException;
 

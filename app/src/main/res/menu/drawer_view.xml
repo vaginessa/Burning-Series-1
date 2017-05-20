@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    >
-    <group>
-        <item
-            android:id="@+id/menu_nav_dashboard"
-            android:title="@string/menu_dash"
-            android:icon="@drawable/ic_dashboard_black_24dp"/>
+    <group android:id="@+id/grp1" android:checkableBehavior="single" >
         <item
             android:id="@+id/menu_nav_towtach"
             android:title="@string/menu_towtach"
@@ -18,12 +12,12 @@
             android:title="@string/menu_season"
             android:icon="@drawable/ic_tv_black_24dp"/>
     </group>
-    <group
-        android:menuCategory="secondary">
+
+    <group android:id="@+id/grp2" android:checkableBehavior="single" >
         <item
             android:id="@+id/menu_nav_settings"
-            android:checkable="false"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/menu_settings" />
+            android:title="@string/menu_settings"
+            android:icon="@drawable/ic_settings_black_24dp"/>
+
     </group>
 </menu>

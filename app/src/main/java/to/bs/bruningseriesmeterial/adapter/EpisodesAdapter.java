@@ -91,7 +91,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
         public void recyclerViewListClicked(View v, int position) {
             StreamingHoster host = StreamingHoster.newInstance(episodes.get(position));
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, host,"host").addToBackStack("EP").commit();
+
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, host,"host").addToBackStack("EP").commit();
             //Episods fragment = Episods.newInstance(episodes.get(position));
             //FragmentManager fragmentManager = activity.getSupportFragmentManager();
             //fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();

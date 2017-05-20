@@ -4,6 +4,8 @@
     android:hint="@string/search_hint"
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
     android:searchSuggestAuthority="to.bs.bruningseriesmeterial"
-    android:searchSuggestSelection=" ?" >
+    android:searchSuggestSelection=" ?"
+
+
     >
 </searchable>

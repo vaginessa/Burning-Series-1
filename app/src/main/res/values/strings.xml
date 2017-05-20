@@ -28,4 +28,8 @@
     <string name="crash_dialog_title">Send me the Crash</string>
     <string name="crash_dialog_ok_toast">Send ok</string>
     <string name="new_ep">Neue Epesoden</string>
+    <string name="tour_start">Willkommen!</string>
+    <string name="tour_start_desc">Du kannst das Menü Öffnen wen du von Links nach rechts wicht</string>
+    <string name="ep_spinner_search">Suche</string>
+    <string name="cradview_support_hoster">Unterstützter Hoster</string>
 </resources>

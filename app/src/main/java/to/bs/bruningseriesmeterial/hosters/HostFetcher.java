@@ -1,4 +1,4 @@
-package to.bs.bruningseriesmeterial.Hoster;
+package to.bs.bruningseriesmeterial.hosters;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,15 +12,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 
-import to.bs.bruningseriesmeterial.Hoster.hosts.VideoHost;
-import to.bs.bruningseriesmeterial.Hoster.hosts.Vivo;
-import to.bs.bruningseriesmeterial.Hoster.hosts.openload;
+import to.bs.bruningseriesmeterial.hosters.hosts.VideoHost;
+import to.bs.bruningseriesmeterial.hosters.hosts.Vivo;
+import to.bs.bruningseriesmeterial.hosters.hosts.openload;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.Utils.RandomUserAgent;
 import to.bs.bruningseriesmeterial.fragments.CapatchCheck;
-import to.bs.bruningseriesmeterial.fragments.Hoster.OpenLoad;
+import to.bs.bruningseriesmeterial.fragments.frgamenthoster.OpenLoad;
 
 /**
  * Created by Phillipp on 11.04.2017.
@@ -128,7 +128,7 @@ public class HostFetcher {
     private VideoHost getHost(String link){
         VideoHost host = null;
         if(link.contains("vivo.sx")){
-            host = new to.bs.bruningseriesmeterial.Hoster.hosts.Vivo();
+            host = new to.bs.bruningseriesmeterial.hosters.hosts.Vivo();
         }
         if(link.contains("openload.co")){
             host = new openload();

@@ -16,7 +16,8 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 
-import to.bs.bruningseriesmeterial.Hoster.HostFetcher;
+import to.bs.bruningseriesmeterial.asynctasks.StreamingHosterUpdateHosterList;
+import to.bs.bruningseriesmeterial.hosters.HostFetcher;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
@@ -27,6 +28,8 @@ public class StreamingHoster extends Fragment {
     private static Episode episode;
     private ProgressDialog dialog;
     private RecyclerView recyclerView;
+
+    private StreamingHosterUpdateHosterList updateHosterList;
 
     public StreamingHoster() {
     }
@@ -40,8 +43,9 @@ public class StreamingHoster extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setRetainInstance(true);
-        if(episode.getHosters().size() == 0){
-            new downloadhosters().execute();
+        if (episode.getHosters().size() == 0) {
+            updateHosterList = new StreamingHosterUpdateHosterList(this);
+            updateHosterList.execute();
             dialog = new ProgressDialog(getActivity());
             dialog.setMessage(getString(R.string.fragment_hoster_wait));
             dialog.setCancelable(false);
@@ -55,44 +59,26 @@ public class StreamingHoster extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity.getInstance().setTitle(episode.getGerName());
         View v = inflater.inflate(R.layout.fragment_hoster, null, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.fragment_hoster_recyclerview);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(new HostAdapter(episode.getHosters()));
-        MainActivity.getInstance().setTitle(episode.getGerName());
+
         return v;
     }
-    private class downloadhosters extends AsyncTask<Void,Void,Void>{
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-
-                Document doc = Jsoup.connect("https://bs.to/"+episode.getLink()).userAgent(RandomUserAgent.getRandomUserAgent()).get();
-                Element body = doc.body();
-                for (Element hosts : body.getElementsByClass("Hoster-tabs")) {
-                    for (Element host : hosts.getElementsByTag("li")) {
-                        Document documentHost = Jsoup.connect("https://bs.to/"+host.getElementsByTag("a").first().attr("href")).get();
-                        String url = documentHost.body().getElementsByClass("Hoster-player").first().attr("href");
-                        HostFetcher hosterFetcher = new HostFetcher(url,host.text(),episode);
-                        episode.getHosters().add(hosterFetcher);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            cancel(true);
-            return null;
-        }
-
-        @Override
-        protected void onCancelled(Void aVoid) {
-
-            recyclerView.setAdapter(new HostAdapter(episode.getHosters()));
-            dialog.dismiss();
-        }
+    public Episode getEpisode() {
+        return episode;
     }
 
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    public ProgressDialog getDialog() {
+        return dialog;
+    }
 }

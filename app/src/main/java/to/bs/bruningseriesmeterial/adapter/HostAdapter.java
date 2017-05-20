@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import to.bs.bruningseriesmeterial.Hoster.HostFetcher;
+import to.bs.bruningseriesmeterial.hosters.HostFetcher;
 import to.bs.bruningseriesmeterial.R;
 
 /**

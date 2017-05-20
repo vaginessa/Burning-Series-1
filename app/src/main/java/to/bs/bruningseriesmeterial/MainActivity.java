@@ -1,9 +1,12 @@
 package to.bs.bruningseriesmeterial;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,18 +18,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.SearchEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
 import to.bs.bruningseriesmeterial.database.SeasonDbHelper;
-import to.bs.bruningseriesmeterial.fragments.AppDashboard;
 import to.bs.bruningseriesmeterial.fragments.Seasons;
 import to.bs.bruningseriesmeterial.fragments.ToWatch;
 
@@ -39,14 +41,18 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> userAgents;
     private SeasonDbHelper dbHelper;
 
+    final String PREFS_NAME = "MyPrefsFile";
+    final String PREFS_NAME_FIRST_RUN = "FirstRun";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance = this;
+        checkCallingOrSelfPermission("android.permission.RECORD_AUDIO");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         dbHelper = new SeasonDbHelper(getInstance());
-        dbHelper.onUpgrade(dbHelper.getWritableDatabase(),2,2);
+        //dbHelper.onUpgrade(dbHelper.getWritableDatabase(),1,1);
 
         userAgents = new ArrayList<>();
 
@@ -59,7 +65,15 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
 
         setupDrawerContent(nvDrawer);
+        runTour();
 
+    }
+    private void runTour(){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        if (settings.getBoolean(PREFS_NAME_FIRST_RUN, true)) {
+
+            //settings.edit().putBoolean(PREFS_NAME_FIRST_RUN, false).commit();
+        }
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -85,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
     public void selectDrawerItem(MenuItem menuItem) {
         for (int i = 0; i < nvDrawer.getMenu().size(); i++) {
             MenuItem item = (MenuItem) nvDrawer.getMenu().getItem(i);
@@ -93,13 +110,13 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         switch(menuItem.getItemId()) {
             case R.id.menu_nav_season:
-                fragment = Seasons.newInstance("https://bs.to/serie-alphabet");
+                fragment = Seasons.newInstance("https://bs.to/serie-alphabet",menuItem);
                 break;
             case R.id.menu_nav_towtach:
-                fragment = ToWatch.newInstance("https://bs.to/serie-alphabet");
+                fragment = ToWatch.newInstance("https://bs.to/serie-alphabet",menuItem);
                 break;
             default:
-                fragment = Seasons.newInstance("https://bs.to/serie-alphabet");
+                fragment = Seasons.newInstance("https://bs.to/serie-alphabet", menuItem);
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"S").commit();
@@ -163,4 +180,18 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+    public static void hideKeyboard(Activity activity)
+    {
+        try
+        {
+            InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        catch (Exception e)
+        {
+            // Ignore exceptions if any
+            Log.e("KeyBoardUtil", e.toString(), e);
+        }
+    }
 }
+
