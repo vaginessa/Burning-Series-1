@@ -35,7 +35,7 @@ public class SeasonsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getName().compareToIgnoreCase(o2.getName());
             }
         });
-        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1, seasons.getActivity());
+        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1);
         seasons.getRecyclerView().setAdapter(seasonAdapter);
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(seasons.getContext(), SeasonSearchHistory.AUTHORITY, SeasonSearchHistory.MODE);
         suggestions.saveRecentQuery(query, null);
@@ -51,7 +51,7 @@ public class SeasonsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getName().compareToIgnoreCase(o2.getName());
             }
         });
-        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1, seasons.getActivity());
+        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1);
         seasons.getRecyclerView().setAdapter(seasonAdapter);
         return true;
     }

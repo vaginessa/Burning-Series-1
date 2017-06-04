@@ -8,16 +8,16 @@ import java.util.List;
 
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.adapter.EpisodesAdapter;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 
 /**
  * Created by Phillipp on 20.05.2017.
  */
 
 public class EpisodsOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
-    private Episods episods;
-    public EpisodsOnItemSelectedListener(Episods episods) {
-        this.episods = episods;
+    private EpisodsFragment episodsFragment;
+    public EpisodsOnItemSelectedListener(EpisodsFragment episodsFragment) {
+        this.episodsFragment = episodsFragment;
     }
 
     @Override
@@ -25,23 +25,23 @@ public class EpisodsOnItemSelectedListener implements AdapterView.OnItemSelected
         EpisodesAdapter episodesAdapter;
         if(position == 0){
             List<Episode> episodes = new ArrayList<>();
-            episodesAdapter = new EpisodesAdapter(episodes,episods.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodes, episodsFragment.getActivity());
         }else if(position == 1){
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(position-1),episods.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(position-1), episodsFragment.getActivity());
         }else{
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(position-1),episods.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(position-1), episodsFragment.getActivity());
         }
-        episods.getRecyclerView().setAdapter(episodesAdapter);
+        episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         EpisodesAdapter episodesAdapter;
-        if(episods.isSpecial()) {
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(1),episods.getActivity());
+        if(episodsFragment.isSpecial()) {
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(1), episodsFragment.getActivity());
         }else {
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(0),episods.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(0), episodsFragment.getActivity());
         }
-        episods.getRecyclerView().setAdapter(episodesAdapter);
+        episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
     }
 }

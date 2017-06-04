@@ -26,15 +26,16 @@ import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.Utils.Season;
+import to.bs.bruningseriesmeterial.activity.Episodes;
 import to.bs.bruningseriesmeterial.adapter.EpisodesAdapter;
 import to.bs.bruningseriesmeterial.asynctasks.EpisodsUpdateList;
 import to.bs.bruningseriesmeterial.listener.EpisodsOnCloseListener;
 import to.bs.bruningseriesmeterial.listener.EpisodsOnItemSelectedListener;
 import to.bs.bruningseriesmeterial.listener.EpisodsOnQueryTextListener;
 
-public class Episods extends Fragment {
+public class EpisodsFragment extends Fragment {
+    private static int pos;
     private boolean special;
-    private int seasons;
 
     private Season season;
     private ProgressDialog dialog;
@@ -49,11 +50,12 @@ public class Episods extends Fragment {
     private EpisodsUpdateList updateList;
 
 
-    public Episods() {
+    public EpisodsFragment() {
     }
 
-    public static Episods newInstance(Season s) {
-        Episods fragment = new Episods();
+    public static EpisodsFragment newInstance(Season s, int position) {
+        pos = position;
+        EpisodsFragment fragment = new EpisodsFragment();
         fragment.season = s;
         return fragment;
     }
@@ -71,6 +73,10 @@ public class Episods extends Fragment {
         dialog.show();
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1);
 
+    }
+
+    public static int getPos() {
+        return pos;
     }
 
     @Override
@@ -105,7 +111,7 @@ public class Episods extends Fragment {
 
         MenuItem item = menu.findItem(R.id.grid_default_search);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        searchView = new SearchView(((Episodes) getActivity()).getSupportActionBar().getThemedContext());
         searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         MenuItemCompat.setActionView(item, searchView);
 

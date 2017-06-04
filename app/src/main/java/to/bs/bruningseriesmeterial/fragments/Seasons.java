@@ -30,7 +30,6 @@ import to.bs.bruningseriesmeterial.listener.SeasonsOnSuggestionListener;
 
 public class Seasons extends Fragment {
     private static final String URL = "SerienURL";
-    private static MenuItem item;
     private String url;
     private ProgressDialog dialog;
     private List<Season> seasons;
@@ -45,8 +44,7 @@ public class Seasons extends Fragment {
     }
 
 
-    public static Seasons newInstance(String param1, MenuItem menuItem) {
-        item = menuItem;
+    public static Seasons newInstance(String param1) {
         Seasons fragment = new Seasons();
         Bundle args = new Bundle();
         args.putString(URL, param1);
@@ -75,14 +73,12 @@ public class Seasons extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        item.setChecked(true);
-        MainActivity.getInstance().setTitle(item.getTitle());
         setHasOptionsMenu(true);
         View v = inflater.inflate(R.layout.fragment_seasons, container, false);
         recyclerView = (IndexFastScrollRecyclerView) v.findViewById(R.id.fragment_seasons_recyclerview);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
-        seasonAdapter = new SeasonAdapter(seasons,getActivity());
+        seasonAdapter = new SeasonAdapter(seasons);
         recyclerView.setAdapter(seasonAdapter);
         return v;
     }

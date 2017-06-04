@@ -10,7 +10,7 @@ import java.util.List;
 
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.adapter.EpisodesAdapter;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 import to.bs.bruningseriesmeterial.history.SeasonSearchHistory;
 
 /**
@@ -18,18 +18,18 @@ import to.bs.bruningseriesmeterial.history.SeasonSearchHistory;
  */
 
 public class EpisodsOnQueryTextListener implements SearchView.OnQueryTextListener {
-    private Episods episods;
+    private EpisodsFragment episodsFragment;
     private int id;
 
-    public EpisodsOnQueryTextListener(Episods episods) {
-        this.episods = episods;
+    public EpisodsOnQueryTextListener(EpisodsFragment episodsFragment) {
+        this.episodsFragment = episodsFragment;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         ArrayList<Episode> epsSerach = new ArrayList<Episode>();
-        for (int i = 0; i < episods.getEpisods().size(); i++) {
-            for (Episode episode : episods.getEpisods().get(i)) {
+        for (int i = 0; i < episodsFragment.getEpisods().size(); i++) {
+            for (Episode episode : episodsFragment.getEpisods().get(i)) {
                 epsSerach.add(episode);
             }
         }
@@ -40,23 +40,23 @@ public class EpisodsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getGerName().compareToIgnoreCase(o2.getGerName());
             }
         });
-        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episods.getActivity());
-        episods.getRecyclerView().setAdapter(episodesAdapter);
-        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(episods.getContext(), SeasonSearchHistory.AUTHORITY, SeasonSearchHistory.MODE);
+        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episodsFragment.getActivity());
+        episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(episodsFragment.getContext(), SeasonSearchHistory.AUTHORITY, SeasonSearchHistory.MODE);
         suggestions.saveRecentQuery(query, null);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(episods.getSpinner().getSelectedItemPosition() != 0){
-            id = episods.getSpinner().getSelectedItemPosition();
-            episods.getSpinner().setSelection(0);
+        if(episodsFragment.getSpinner().getSelectedItemPosition() != 0){
+            id = episodsFragment.getSpinner().getSelectedItemPosition();
+            episodsFragment.getSpinner().setSelection(0);
         }
 
         ArrayList<Episode> epsSerach = new ArrayList<Episode>();
-        for (int i = 0; i < episods.getEpisods().size(); i++) {
-            for (Episode episode : episods.getEpisods().get(i)) {
+        for (int i = 0; i < episodsFragment.getEpisods().size(); i++) {
+            for (Episode episode : episodsFragment.getEpisods().get(i)) {
                 epsSerach.add(episode);
             }
         }
@@ -68,8 +68,8 @@ public class EpisodsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getGerName().compareToIgnoreCase(o2.getGerName());
             }
         });
-        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episods.getActivity());
-        episods.getRecyclerView().setAdapter(episodesAdapter);
+        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episodsFragment.getActivity());
+        episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
         return true;
     }
     private ArrayList<Episode> filter(List<Episode> season, String query) {

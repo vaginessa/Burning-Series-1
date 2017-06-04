@@ -30,7 +30,6 @@ import to.bs.bruningseriesmeterial.listener.ToWatchOnSuggestionListener;
 
 public class ToWatch extends Fragment {
     private static final String URL = "SerienURL";
-    private static MenuItem item;
     private String url;
     private List<Season> towatch;
     private ProgressDialog dialog;
@@ -43,8 +42,7 @@ public class ToWatch extends Fragment {
     public ToWatch() {
     }
 
-    public static ToWatch newInstance(String param1, MenuItem menuItem) {
-        item = menuItem;
+    public static ToWatch newInstance(String param1) {
         ToWatch fragment = new ToWatch();
         Bundle args = new Bundle();
         args.putString(URL, param1);
@@ -73,8 +71,6 @@ public class ToWatch extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MainActivity.getInstance().setTitle(item.getTitle());
-        item.setChecked(true);
         View v = inflater.inflate(R.layout.fragment_to_watch, container, false);
         setHasOptionsMenu(true);
         recyclerView = (IndexFastScrollRecyclerView) v.findViewById(R.id.fragment_to_watch_recyclerview);
@@ -119,17 +115,6 @@ public class ToWatch extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        item.setChecked(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        item.setChecked(true);
-    }
 
     public SearchView getSearchView() {
         return searchView;

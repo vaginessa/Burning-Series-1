@@ -18,7 +18,7 @@
     <string name="fragment_hoster_wait">Sammle Hoster für Video Streaming</string>
     <string name="host_bad_request">Hoster nicht verfügbar</string>
     <string name="host_ups_error">Ups da ist uns ein Fehler unterlaufen</string>
-    <string name="menu_towtach">Zu Sehen</string>
+    <string name="menu_towtach">Favoriten</string>
     <string name="title_activity_season">Season</string>
     <string name="ep_info_tab">Info</string>
     <string name="search_label">Suche nach Serien</string>
@@ -27,7 +27,7 @@
     <string name="menu_dash">Dashboard</string>
     <string name="crash_dialog_title">Send me the Crash</string>
     <string name="crash_dialog_ok_toast">Send ok</string>
-    <string name="new_ep">Neue Epesoden</string>
+    <string name="new_ep">Neue Episoden</string>
     <string name="tour_start">Willkommen!</string>
     <string name="tour_start_desc">Du kannst das Menü Öffnen wen du von Links nach rechts wicht</string>
     <string name="ep_spinner_search">Suche</string>
@@ -118,4 +118,6 @@
     <string name="episode_checkbox">Gesehen</string>
     <string name="chnangelog">Änderungen</string>
     <string name="about_ok">Ok</string>
+    <string name="menu_info">Info</string>
+    <string name="menu_episodes">Episoden</string>
 </resources>

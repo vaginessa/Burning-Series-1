@@ -18,7 +18,7 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Season;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 
 /**
  * Created by Phillipp on 10.04.2017.
@@ -128,9 +128,9 @@ public class ToWatchAdapter extends RecyclerView.Adapter<ToWatchAdapter.ViewHold
 
         @Override
         public void recyclerViewListClicked(View v, int position) {
-            Episods fragment = Episods.newInstance(allseasons.get(position));
+            EpisodsFragment fragment = EpisodsFragment.newInstance(allseasons.get(position), position);
             FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
+            //fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
         }
     }
 

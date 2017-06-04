@@ -17,6 +17,7 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 import to.bs.bruningseriesmeterial.fragments.StreamingHoster;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -29,8 +30,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 
     private List<Episode> episodes;
-    private FragmentActivity activity;
-    public EpisodesAdapter(List<Episode> episodeList, FragmentActivity fragmentActivity) {
+    private EpisodsFragment activity;
+    public EpisodesAdapter(List<Episode> episodeList, EpisodsFragment fragmentActivity) {
         episodes = episodeList;
         activity = fragmentActivity;
     }
@@ -99,10 +100,11 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
             InputMethodManager imm = (InputMethodManager)MainActivity.getInstance().getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             StreamingHoster host = StreamingHoster.newInstance(episodes.get(position));
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            FragmentManager fragmentManager = activity.getActivity().getSupportFragmentManager();
 
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, host,"host").addToBackStack("EP").commit();
-            //Episods fragment = Episods.newInstance(episodes.get(position));
+
+            //fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, host,"host").addToBackStack("EP").commit();
+            //EpisodsFragment fragment = EpisodsFragment.newInstance(episodes.get(position));
             //FragmentManager fragmentManager = activity.getSupportFragmentManager();
             //fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
         }

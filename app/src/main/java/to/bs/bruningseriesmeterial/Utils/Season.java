@@ -1,5 +1,6 @@
 package to.bs.bruningseriesmeterial.Utils;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -9,26 +10,32 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 
 import to.bs.bruningseriesmeterial.MainActivity;
+import to.bs.bruningseriesmeterial.fragments.SeasonInfo;
 
 /**
  * Created by Phillipp on 10.04.2017.
  */
 
-public class Season {
+public class Season implements Serializable{
     private String name;
     private String gerne;
+    private String productionyear;
+    private String mainactor;
+    private String producers;
+    private String directors;
+    private String auhtor;
     private String url;
     private ArrayList<Episode> episodes;
     private boolean watched = false;
     private boolean toWatch = false;
-    private Bitmap image;
+    private String image;
     private String Description;
     private int eps;
-    private int epsw;
 
     public Season(String name, String gerne, String url, ArrayList<Episode> episodes) {
         this.name = name;
@@ -85,9 +92,29 @@ public class Season {
         return url;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
 
         return image;
+    }
+
+    public String getAuhtor() {
+        return auhtor;
+    }
+
+    public String getDirectors() {
+        return directors;
+    }
+
+    public String getMainactor() {
+        return mainactor;
+    }
+
+    public String getProducers() {
+        return producers;
+    }
+
+    public String getProductionyear() {
+        return productionyear;
     }
 
     public String getDescription() {
@@ -101,6 +128,40 @@ public class Season {
     public void run(){
         setWatched(MainActivity.getInstance().getDbHelper().isInsertSeason(getName()));
         new DownloadInformations().execute();
+
+    }
+    public void runNow(final ProgressDialog seasonInfo){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Document doc = null;
+                try {
+                    doc = Jsoup.connect(getUrl()).userAgent(RandomUserAgent.getRandomUserAgent()).get();
+                    Element body = doc.body();
+                    String imageLink = body.getElementById("sp_right").getElementsByTag("img").first().attr("src");
+                    URL url = new URL("https://bs.to"+imageLink);
+                    image = url.toString();
+                    String desc = body.getElementById("sp_left").getElementsByTag("p").first().text();
+                    Description = desc;
+                    gerne = body.getElementById("sp_left").getElementsByTag("p").get(1).text();
+                    productionyear = body.getElementById("sp_left").getElementsByTag("p").get(2).text();
+                    mainactor = body.getElementById("sp_left").getElementsByTag("p").get(3).text();
+                    producers = body.getElementById("sp_left").getElementsByTag("p").get(4).text();
+                    directors = body.getElementById("sp_left").getElementsByTag("p").get(5).text();
+                    auhtor = body.getElementById("sp_left").getElementsByTag("p").get(6).text();
+
+                    cancel(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onCancelled(Void aVoid) {
+                seasonInfo.dismiss();
+            }
+        }.execute();
 
     }
 
@@ -117,7 +178,6 @@ public class Season {
         return MainActivity.getInstance().getDbHelper().getWatchedEpisodes(getName());
     }
 
-
     public class DownloadInformations extends AsyncTask<Void, Void, Void> {
 
 
@@ -129,16 +189,28 @@ public class Season {
                 Element body = doc.body();
                 String imageLink = body.getElementById("sp_right").getElementsByTag("img").first().attr("src");
                 URL url = new URL("https://bs.to"+imageLink);
-                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                image = url.toString();
                 String desc = body.getElementById("sp_left").getElementsByTag("p").first().text();
                 Description = desc;
                 gerne = body.getElementById("sp_left").getElementsByTag("p").get(1).text();
+                productionyear = body.getElementById("sp_left").getElementsByTag("p").get(2).text();
+                mainactor = body.getElementById("sp_left").getElementsByTag("p").get(3).text();
+                producers = body.getElementById("sp_left").getElementsByTag("p").get(4).text();
+                directors = body.getElementById("sp_left").getElementsByTag("p").get(5).text();
+                auhtor = body.getElementById("sp_left").getElementsByTag("p").get(6).text();
+
                 cancel(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             return null;
+        }
+
+        @Override
+        protected void onCancelled(Void aVoid) {
+            super.onCancelled(aVoid);
+
         }
     }
     private class DownloadEpisods extends AsyncTask<Void, Void, Void> {
