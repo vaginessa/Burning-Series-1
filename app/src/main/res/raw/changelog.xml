@@ -12,16 +12,21 @@
     </changelogversion>
 
     <changelogversion versionName="1.2" changeDate="Mai 6,2017">
-        <changelogtext>[b]Neu![/b] Performace steigerung</changelogtext>
+        <changelogtext>[b]Verbssert![/b] Performace steigerung</changelogtext>
     </changelogversion>
     <changelogversion versionName="1.3" changeDate="Mai 10,2017">
-        <changelogtext>[b]Neu![/b] Toolbar wieder normal gemacht</changelogtext>
+        <changelogtext>[b]Verbssert![/b] Toolbar wieder normal gemacht</changelogtext>
     </changelogversion>
     <changelogversion versionName="1.4" changeDate="Mai 17,2017">
         <changelogtext>[b]Verbssert![/b] Performace strigerung durch code optimierung</changelogtext>
     </changelogversion>
-    <changelogversion versionName="1.5" changeDate="Mai 18,2017">
-        <changelogtext>[b]Verbssert![/b] Performace strigerung durch code optimierung</changelogtext>
+    <changelogversion versionName="1.5" changeDate="Mai 20,2017">
+        <changelogtext>[b]Neu![/b] Openload.co unterstützung</changelogtext>
+        <changelogtext>[b]Neu/Vorbereitung![/b] Urlaub Modus</changelogtext>
+    </changelogversion>
+    <changelogversion versionName="1.6" changeDate="Mai 29,2017">
+        <changelogtext>[b]Neu![/b] Changelog System hinzugefügt</changelogtext>
+        <changelogtext>[b]Neu/Vorbereitung![/b] Bessere naviagtion</changelogtext>
     </changelogversion>
 
 
