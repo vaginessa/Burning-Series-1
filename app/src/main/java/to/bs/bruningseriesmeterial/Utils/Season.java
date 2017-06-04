@@ -95,12 +95,12 @@ public class Season {
         return Description;
     }
     public void runInfo() {
-        new DownloadIonformations().execute();
+        new DownloadInformations().execute();
         new DownloadEpisods().execute();
     }
     public void run(){
         setWatched(MainActivity.getInstance().getDbHelper().isInsertSeason(getName()));
-        new DownloadIonformations().execute();
+        new DownloadInformations().execute();
 
     }
 
@@ -118,7 +118,7 @@ public class Season {
     }
 
 
-    public class DownloadIonformations extends AsyncTask<Void, Void, Void> {
+    public class DownloadInformations extends AsyncTask<Void, Void, Void> {
 
 
         @Override
@@ -162,17 +162,35 @@ public class Season {
 
                     if (!special) {
                         doc = Jsoup.connect(getUrl() + "/" + (i + 1)).userAgent(RandomUserAgent.getRandomUserAgent()).get();
+
                     }else{
                         doc = Jsoup.connect(getUrl() + "/" + (i + 1)).userAgent(RandomUserAgent.getRandomUserAgent()).get();
                     }
                     if (!special) {
                         body = doc.body();
                         for (Element episodes : body.getElementsByTag("tr")) {
+                            String link = episodes.getElementsByTag("td").get(1).select("a").attr("href");;
+                            String epName;
+                            if(episodes.getElementsByTag("td").get(1).select("a.strong").size() > 0){
+                                epName = episodes.getElementsByTag("td").get(1).getElementsByTag("strong").first().text();
+                            }else{
+                                epName = episodes.getElementsByTag("td").get(1).select("a").attr("title");
+                            }
+                            MainActivity.getInstance().getDbHelper().addEpisodeToWatch(getName(),epName,link);
                             eps++;
                         }
                     }else{
                         body = doc.body();
                         for (Element episodes : body.getElementsByTag("tr")) {
+                            String link = episodes.getElementsByTag("td").get(1).select("a").attr("href");;
+                            String epName;
+                            if(episodes.getElementsByTag("td").get(1).select("a.strong").size() > 0){
+                                epName = episodes.getElementsByTag("td").get(1).getElementsByTag("strong").first().text();
+                            }else{
+                                epName = episodes.getElementsByTag("td").get(1).select("a").attr("title");
+                            }
+                            String linkeDown = getUrl()+"/" + (i + 1)+"/";
+                            MainActivity.getInstance().getDbHelper().addEpisodeToWatch(getName(),epName,link);
                             eps++;
                         }
                     }

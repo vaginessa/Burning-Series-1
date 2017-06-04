@@ -9,13 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -77,6 +75,7 @@ public class Seasons extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        item.setChecked(true);
         MainActivity.getInstance().setTitle(item.getTitle());
         setHasOptionsMenu(true);
         View v = inflater.inflate(R.layout.fragment_seasons, container, false);
@@ -86,6 +85,11 @@ public class Seasons extends Fragment {
         seasonAdapter = new SeasonAdapter(seasons,getActivity());
         recyclerView.setAdapter(seasonAdapter);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -117,7 +121,6 @@ public class Seasons extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MainActivity.hideKeyboard(getActivity());
     }
 
     public ProgressDialog getDialog() {

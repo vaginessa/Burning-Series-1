@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by Phillipp on 12.04.2017.
  */
@@ -62,6 +66,15 @@ public class SeasonDbHelper extends SQLiteOpenHelper {
                     values,
                     selection,
                     selectionArgs);
+        }
+    }
+    public void addEpisodeToWatch(String serie, String folge,String URL){
+        if(!isInsertEpisode(serie,folge)){
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(SeasonContract.ToWatchEpisodeEntry.EP_NAME, folge);
+            values.put(SeasonContract.ToWatchEpisodeEntry.EP_URL, URL);
+            db.insert(serie.replaceAll(" ","_").replace('.','_').replace('/','_'), null, values);
         }
     }
     public boolean isInsertEpisode(String serie,String folge){
@@ -122,6 +135,55 @@ public class SeasonDbHelper extends SQLiteOpenHelper {
             values.put(SeasonContract.SeasonEntry.SEASON_NAME, serie);
             db.insert(SeasonContract.SeasonEntry.TABLE_NAME, null, values);
         }
+    }
+    public HashMap<String,String> getEpisodsToWatch(String serie){
+        HashMap<String,String> seasons = new HashMap<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String[] projection = {
+                SeasonContract.ToWatchEpisodeEntry._ID,
+                SeasonContract.ToWatchEpisodeEntry.EP_NAME,
+                SeasonContract.ToWatchEpisodeEntry.EP_URL,
+        };
+
+        Cursor cursor = db.query(
+                serie.replaceAll(" ","_").replace('.','_').replace('/','_'),                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        try {
+            while (cursor.moveToNext()) {
+                String ep = cursor.getString(cursor.getColumnIndexOrThrow(SeasonContract.ToWatchEpisodeEntry.EP_NAME));
+                String link = cursor.getString(cursor.getColumnIndexOrThrow(SeasonContract.ToWatchEpisodeEntry.EP_URL));
+                seasons.put(ep,link);
+            }
+        } finally {
+            cursor.close();
+        }
+        return seasons;
+    }
+    public List<String> getSeasons(){
+        List<String> seasons = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+SeasonContract.ToWatchEntry.TABLE_NAME,null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    seasons.add(cursor.getString(cursor.getColumnIndexOrThrow(SeasonContract.ToWatchEntry.SEASON_NAME)));
+                    cursor.moveToNext();
+
+                }
+            }
+
+        } finally {
+            cursor.close();
+        }
+        return seasons;
     }
     public boolean isInsertSeason(String serie){
         SQLiteDatabase db = getReadableDatabase();
@@ -230,6 +292,7 @@ public class SeasonDbHelper extends SQLiteOpenHelper {
             values.put(SeasonContract.ToWatchEntry.EPS_COUNT, count);
             values.put(SeasonContract.ToWatchEntry.EPS_WATCHED, 0);
             db.insert(SeasonContract.ToWatchEntry.TABLE_NAME, null, values);
+            db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s ("+SeasonContract.ToWatchEpisodeEntry._ID + " INTEGER PRIMARY KEY," + SeasonContract.ToWatchEpisodeEntry.EP_NAME + " TEXT," + SeasonContract.ToWatchEpisodeEntry.EP_URL + " TEXT)",serie.replaceAll(" ","_").replace('.','_').replace('/','_')));
             db.close();
         }
     }
@@ -268,6 +331,7 @@ public class SeasonDbHelper extends SQLiteOpenHelper {
         String selection = SeasonContract.ToWatchEntry.SEASON_NAME + " LIKE ?";
         String[] selectionArgs = { serie};
         db.delete(SeasonContract.ToWatchEntry.TABLE_NAME, selection, selectionArgs);
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s",serie.replaceAll(" ","_").replace('.','_').replace('/','_')));
     }
     public void updateCount(String serie,int count){
         SQLiteDatabase db = getWritableDatabase();
@@ -281,6 +345,7 @@ public class SeasonDbHelper extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+
     }
     public void updateWatchCount(String serie,int count){
         SQLiteDatabase db = getWritableDatabase();

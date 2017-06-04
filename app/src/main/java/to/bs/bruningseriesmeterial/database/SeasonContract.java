@@ -23,6 +23,10 @@ public class SeasonContract {
         public static final String EPS_COUNT = "Eps";
         public static final String EPS_WATCHED = "Watched";
     }
+    public static class ToWatchEpisodeEntry implements BaseColumns {
+        public static final String EP_NAME = "Name";
+        public static final String EP_URL = "URL";
+    }
     public static class EpisodesEntry implements BaseColumns {
         public static final String TABLE_NAME = "Episodes";
         public static final String SEASON_NAME = "Serie";

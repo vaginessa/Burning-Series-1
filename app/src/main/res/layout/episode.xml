@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/episode_cv"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="100dp"
+    android:background="@drawable/background_selector"
     android:padding="16dp"
-    app:cardBackgroundColor="@color/cardview_light_background"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -18,37 +18,29 @@
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:text="@string/episode_checkbox"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp"
-            android:text="Gesehen" />
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/episode_ger_text"
             android:layout_width="wrap_content"
             android:layout_height="22.5dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
 
-            android:layout_toEndOf="@+id/episode_checkbox"
-            android:layout_toRightOf="@+id/episode_checkbox"
             android:ellipsize="end"
             android:lines="1"
-            android:text="Deutscher Text" />
-
-        <TextView
-            android:id="@+id/episode_eng_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/episode_checkbox"
-            android:layout_alignParentEnd="true"
+            android:text="Deutscher Text"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/episode_ger_text"
+            android:layout_alignParentEnd="true"
             android:layout_toRightOf="@+id/episode_checkbox"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="English Text" />
+            android:layout_toEndOf="@+id/episode_checkbox" />
+
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>

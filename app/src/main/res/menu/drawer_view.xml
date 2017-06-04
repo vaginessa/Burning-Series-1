@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/menu_submenu_season"
 
-    <group android:id="@+id/grp1" android:checkableBehavior="single" >
-        <item
-            android:id="@+id/menu_nav_towtach"
-            android:title="@string/menu_towtach"
-            android:icon="@drawable/ic_live_tv_black_24dp"/>
-        <item
-            android:id="@+id/menu_nav_season"
-            android:title="@string/menu_season"
-            android:icon="@drawable/ic_tv_black_24dp"/>
-    </group>
+        android:id="@+id/title_sub">
+        <menu>
+            <item
+                android:id="@+id/menu_nav_towtach"
+                android:title="@string/menu_towtach"
+                android:icon="@drawable/ic_live_tv_black_24dp"/>
+            <item
+                android:id="@+id/menu_nav_season"
+                android:title="@string/menu_season"
+                android:icon="@drawable/ic_tv_black_24dp"/>
+        </menu>
+
+    </item>
+
 
     <group android:id="@+id/grp2" android:checkableBehavior="single" >
         <item

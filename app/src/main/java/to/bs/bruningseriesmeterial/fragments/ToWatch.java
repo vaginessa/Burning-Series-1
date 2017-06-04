@@ -3,11 +3,7 @@ package to.bs.bruningseriesmeterial.fragments;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.provider.SearchRecentSuggestions;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -18,29 +14,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.CursorAdapter;
 import android.widget.SearchView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
-import to.bs.bruningseriesmeterial.Utils.RandomUserAgent;
 import to.bs.bruningseriesmeterial.Utils.Season;
 import to.bs.bruningseriesmeterial.adapter.ToWatchAdapter;
 import to.bs.bruningseriesmeterial.asynctasks.ToWatchUpdateSeasonsList;
-import to.bs.bruningseriesmeterial.history.SeasonSearchHistory;
 import to.bs.bruningseriesmeterial.listener.ToWatchOnQueryTextListener;
 import to.bs.bruningseriesmeterial.listener.ToWatchOnSuggestionListener;
 
@@ -90,6 +74,7 @@ public class ToWatch extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.getInstance().setTitle(item.getTitle());
+        item.setChecked(true);
         View v = inflater.inflate(R.layout.fragment_to_watch, container, false);
         setHasOptionsMenu(true);
         recyclerView = (IndexFastScrollRecyclerView) v.findViewById(R.id.fragment_to_watch_recyclerview);
@@ -132,9 +117,19 @@ public class ToWatch extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MainActivity.hideKeyboard(getActivity());
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        item.setChecked(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        item.setChecked(true);
+    }
 
     public SearchView getSearchView() {
         return searchView;

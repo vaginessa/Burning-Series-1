@@ -43,7 +43,7 @@ public class StreamingHoster extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setRetainInstance(true);
-        if (episode.getHosters().size() == 0) {
+        if (episode.getHosters().isEmpty() ||episode.getHosters().size() == 0) {
             updateHosterList = new StreamingHosterUpdateHosterList(this);
             updateHosterList.execute();
             dialog = new ProgressDialog(getActivity());

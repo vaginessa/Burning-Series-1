@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="HosterNames">
+        <item>Vivo</item>
+
+
+    </string-array>
+
+    <string-array name="HosterValues">
+        <item>vivo.sx</item>
+
+    </string-array>
+    <string-array name="DefaultHosterValues">
+        <item>vivo.sx</item>
+    </string-array>
+</resources>

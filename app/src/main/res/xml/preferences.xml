@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/setting_hollyday"
+        >
+        <SwitchPreference
+            android:title="@string/setting_hollyday_mode_title"
+            android:key="holiday"
+            android:summary="@string/setting_hollyday_mode">
+
+        </SwitchPreference>
+        <Preference
+            android:title="@string/setting_donwloadfolder_title"
+            android:summary="@string/setting_donwloadfolder"
+            android:key="downloadFolder"
+            />
+        <MultiSelectListPreference
+            android:title="@string/setting_hollyday_hoster_list"
+            android:key="holiday_hoster_list"
+
+            android:summary="@string/setting_hollyday_hoster_list_summary"
+            android:dialogTitle="@string/setting_hollyday_hoster_list"
+            android:entries="@array/HosterNames"
+            android:entryValues="@array/HosterValues"
+            android:defaultValue="@array/DefaultHosterValues"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

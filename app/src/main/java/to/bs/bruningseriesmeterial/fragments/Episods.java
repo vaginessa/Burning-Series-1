@@ -90,6 +90,7 @@ public class Episods extends Fragment {
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(episodesAdapter[0]);
 
+
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new EpisodsOnItemSelectedListener(this));
         return v;
