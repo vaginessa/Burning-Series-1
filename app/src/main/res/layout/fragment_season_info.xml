@@ -25,21 +25,6 @@
                 app:srcCompat="@drawable/background_selector" />
 
             <TextView
-                android:id="@+id/stroy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/season_image"
-                android:layout_gravity="fill"
-                android:text="TextView"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/Genres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,6 +107,21 @@
                 android:gravity="center_vertical"
                 android:text="TextView"
                 android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/stroy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/season_image"
+                android:layout_gravity="fill"
+                android:text="TextView"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

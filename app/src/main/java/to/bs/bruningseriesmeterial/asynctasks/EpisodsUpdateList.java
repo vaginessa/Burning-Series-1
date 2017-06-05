@@ -154,7 +154,7 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                episodsFragment.getLlm().smoothScrollToPosition(episodsFragment.getRecyclerView(),new RecyclerView.State(),ep);
+                episodsFragment.getLlm().scrollToPositionWithOffset(ep,-2);
             }
         }, 250);
 
