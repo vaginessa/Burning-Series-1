@@ -1,6 +1,10 @@
 package to.bs.bruningseriesmeterial.asynctasks;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
 import org.jsoup.Jsoup;
@@ -24,6 +28,8 @@ import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
     private EpisodsFragment episodsFragment;
     private int seasons;
+    private int seasons1;
+    private int ep;
 
     public EpisodsUpdateList(EpisodsFragment episodsFragment) {
         this.episodsFragment = episodsFragment;
@@ -42,6 +48,11 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
                     special = true;
                 }
                 seasons++;
+            }
+            if(special){
+                seasons1 = 2;
+            }else{
+                seasons1 = 1;
             }
             for (int i = 0; i < seasons; i++) {
                 final int finalI = i;
@@ -78,8 +89,23 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
 
 
                     Episode episode = new Episode(epName,EngEpName,link, episodsFragment.getSeason());
-                    episode.setWatched(MainActivity.getInstance().getDbHelper().isInsertEpisode(episodsFragment.getSeason().getName(),epName));
+                    if (MainActivity.getInstance().getDbHelper().isInsertEpisode(episodsFragment.getSeason().getName(),epName)){
+                        episode.setWatched(true);
+                        if(special){
+                            ep++;
+
+                            seasons1 = i+1;
+
+                        }else{
+                            ep++;
+                            seasons1 = i+1;
+                        }
+                    }
                     episodsFragment.getEpisods().get(i).add(episode);
+                }
+
+                if(ep == 0){
+                    ep = 0;
                 }
             }
             episodsFragment.setSpecial(special);
@@ -123,6 +149,14 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
         episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
         episodsFragment.getDialog().dismiss();
         this.episodsFragment.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        episodsFragment.getSpinner().setSelection(seasons1);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                episodsFragment.getLlm().smoothScrollToPosition(episodsFragment.getRecyclerView(),new RecyclerView.State(),ep);
+            }
+        }, 250);
 
     }
 }

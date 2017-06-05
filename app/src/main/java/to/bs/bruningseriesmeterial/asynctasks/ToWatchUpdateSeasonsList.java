@@ -78,7 +78,7 @@ public class ToWatchUpdateSeasonsList extends AsyncTask<String,Void,List<Season>
         toWatch.getRecyclerView().setAdapter(seasonAdapter);
         toWatch.setTowatch(seasons);
         this.toWatch.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        toWatch.getSwipeRefreshLayout().setRefreshing(false);
         super.onCancelled(seasons);
     }
 }

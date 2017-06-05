@@ -48,6 +48,7 @@ public class EpisodsFragment extends Fragment {
     private SearchView searchView;
     private EpisodsOnQueryTextListener episodsOnQueryTextListener;
     private EpisodsUpdateList updateList;
+    private LinearLayoutManager llm;
 
 
     public EpisodsFragment() {
@@ -84,7 +85,7 @@ public class EpisodsFragment extends Fragment {
                              Bundle savedInstanceState) {
         MainActivity.getInstance().setTitle(season.getName());
         setHasOptionsMenu(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm = new LinearLayoutManager(getContext());
 
         final View v = inflater.inflate(R.layout.fragment_episods, container, false);
         spinner = (Spinner) v.findViewById(R.id.frgament_ep_spinner);
@@ -112,15 +113,14 @@ public class EpisodsFragment extends Fragment {
         MenuItem item = menu.findItem(R.id.grid_default_search);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
         searchView = new SearchView(((Episodes) getActivity()).getSupportActionBar().getThemedContext());
-        searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        MenuItemCompat.setActionView(item, searchView);
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        MenuItemCompat.setActionView(item, searchView);
         searchView.setIconified(false);
 
         episodsOnQueryTextListener = new EpisodsOnQueryTextListener(this);
         searchView.setOnQueryTextListener(episodsOnQueryTextListener);
         searchView.setOnCloseListener(new EpisodsOnCloseListener(this));
+        searchView.clearFocus();
     }
 
     public void setEpisodesAdapter(EpisodesAdapter[] episodesAdapter) {
@@ -170,5 +170,9 @@ public class EpisodsFragment extends Fragment {
 
     public void setSpecial(boolean special) {
         this.special = special;
+    }
+
+    public LinearLayoutManager getLlm() {
+        return llm;
     }
 }

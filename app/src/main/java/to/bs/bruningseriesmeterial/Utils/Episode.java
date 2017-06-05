@@ -1,5 +1,6 @@
 package to.bs.bruningseriesmeterial.Utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import to.bs.bruningseriesmeterial.hosters.HostFetcher;
@@ -8,7 +9,7 @@ import to.bs.bruningseriesmeterial.hosters.HostFetcher;
  * Created by Phillipp on 10.04.2017.
  */
 
-public class Episode {
+public class Episode implements Serializable{
 
     private String GerName,EngName,link;
     private ArrayList<HostFetcher> hosters;

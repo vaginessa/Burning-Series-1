@@ -120,4 +120,5 @@
     <string name="about_ok">Ok</string>
     <string name="menu_info">Info</string>
     <string name="menu_episodes">Episoden</string>
+    <string name="about_never">Nie wieder anzeigen</string>
 </resources>

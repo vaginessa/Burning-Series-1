@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,19 +44,6 @@ public class SeasonInfo extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    URL url = new URL(myseason.getImage());
-                    map = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                cancel(true);
-                return null;
-            }
-        }.execute();
 
 
     }
@@ -64,7 +53,7 @@ public class SeasonInfo extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_season_info, container, false);
         final ImageView imageButton = (ImageView) v.findViewById(R.id.season_image);
-        imageButton.setImageBitmap(map);
+        Picasso.with(getContext()).load(myseason.getImage()).into(imageButton);
         TextView Genres = (TextView) v.findViewById(R.id.Genres);
         Genres.setText("Genres: "+myseason.getGerne());
         TextView Produktionsjahre = (TextView) v.findViewById(R.id.Produktionsjahre);

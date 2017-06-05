@@ -1,5 +1,7 @@
 package to.bs.bruningseriesmeterial;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -101,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void openDialogFragment(DialogFragment dialogStandardFragment) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        boolean show = sharedPref.getBoolean("changelog",true);
+        if (!show) {
+            return;
+        }
         if (dialogStandardFragment != null) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
@@ -113,7 +120,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTitle(R.string.app_name);
+    }
 
     public ArrayList<String> getUserAgents() {
         return userAgents;

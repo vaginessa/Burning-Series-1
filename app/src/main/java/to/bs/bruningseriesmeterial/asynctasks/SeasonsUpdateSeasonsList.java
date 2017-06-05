@@ -79,5 +79,6 @@ public class SeasonsUpdateSeasonsList extends AsyncTask<String,Void,List<Season>
         this.seasons.getRecyclerView().setAdapter(this.seasons.getSeasonAdapter());
         this.seasons.setSeasons(seasons);
         this.seasons.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        this.seasons.getSwipeRefreshLayout().setRefreshing(false);
     }
 }

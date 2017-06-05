@@ -67,7 +67,7 @@ public class CapatchCheck extends Fragment {
                     if(url.contains("openload.co")){
                         OpenLoad fragment = OpenLoad.newInstance(url, episode);
                         fragmentManager = getActivity().getSupportFragmentManager();
-                        //fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"OpenLoad").addToBackStack("S").commit();
+                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"OpenLoad").addToBackStack("S").commit();
                     }else{
                         host = getHost(url);
                         if(host == null){
@@ -82,7 +82,7 @@ public class CapatchCheck extends Fragment {
                             browserIntent.setData(uri);
                             MainActivity.getInstance().startActivity(browserIntent);
                             fragmentManager = getActivity().getSupportFragmentManager();
-                            //fragmentManager.beginTransaction().replace(R.id.flContent, fragmentManager.findFragmentByTag("EP")).addToBackStack("S").commit();
+                            fragmentManager.beginTransaction().replace(R.id.flContent, fragmentManager.findFragmentByTag("EP")).addToBackStack("S").commit();
                             return;
                         }
                         try {

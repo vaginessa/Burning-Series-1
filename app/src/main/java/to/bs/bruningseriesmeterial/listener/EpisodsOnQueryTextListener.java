@@ -11,7 +11,6 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.adapter.EpisodesAdapter;
 import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
-import to.bs.bruningseriesmeterial.history.SeasonSearchHistory;
 
 /**
  * Created by Phillipp on 20.05.2017.
@@ -40,10 +39,10 @@ public class EpisodsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getGerName().compareToIgnoreCase(o2.getGerName());
             }
         });
-        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episodsFragment.getActivity());
+        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episodsFragment);
         episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
-        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(episodsFragment.getContext(), SeasonSearchHistory.AUTHORITY, SeasonSearchHistory.MODE);
-        suggestions.saveRecentQuery(query, null);
+
+
         return true;
     }
 
@@ -68,7 +67,7 @@ public class EpisodsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getGerName().compareToIgnoreCase(o2.getGerName());
             }
         });
-        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episodsFragment.getActivity());
+        EpisodesAdapter episodesAdapter = new EpisodesAdapter(epsFiltered, episodsFragment);
         episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
         return true;
     }

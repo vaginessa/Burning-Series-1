@@ -1,5 +1,6 @@
 package to.bs.bruningseriesmeterial.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -133,11 +134,16 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
 
         @Override
         public void recyclerViewListClicked(View v, int position) {
+            ProgressDialog dialog = new ProgressDialog(MainActivity.getInstance());
+            dialog.setCancelable(false);
+            dialog.setProgressStyle(R.style.Widget_AppCompat_ProgressBar);
+            dialog.setMessage(MainActivity.getInstance().getString(R.string.Episods_wait));
+            dialog.show();
             Intent myIntent = new Intent(MainActivity.getInstance(),Episodes.class);
             Season s = allseasons.get(position);
-            s.run();
+            s.runNow(dialog,myIntent);
             myIntent.putExtra("season",s);
-            MainActivity.getInstance().startActivity(myIntent);
+
 
         }
     }

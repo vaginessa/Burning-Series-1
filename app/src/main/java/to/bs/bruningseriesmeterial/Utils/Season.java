@@ -1,6 +1,7 @@
 package to.bs.bruningseriesmeterial.Utils;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -130,7 +131,7 @@ public class Season implements Serializable{
         new DownloadInformations().execute();
 
     }
-    public void runNow(final ProgressDialog seasonInfo){
+    public void runNow(final ProgressDialog seasonInfo, final Intent myIntent){
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -160,6 +161,7 @@ public class Season implements Serializable{
             @Override
             protected void onCancelled(Void aVoid) {
                 seasonInfo.dismiss();
+                MainActivity.getInstance().startActivity(myIntent);
             }
         }.execute();
 

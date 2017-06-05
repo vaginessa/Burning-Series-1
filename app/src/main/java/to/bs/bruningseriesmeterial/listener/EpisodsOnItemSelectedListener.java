@@ -25,11 +25,11 @@ public class EpisodsOnItemSelectedListener implements AdapterView.OnItemSelected
         EpisodesAdapter episodesAdapter;
         if(position == 0){
             List<Episode> episodes = new ArrayList<>();
-            episodesAdapter = new EpisodesAdapter(episodes, episodsFragment.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodes, episodsFragment);
         }else if(position == 1){
-            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(position-1), episodsFragment.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(position-1), episodsFragment);
         }else{
-            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(position-1), episodsFragment.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(position-1), episodsFragment);
         }
         episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
     }
@@ -38,9 +38,9 @@ public class EpisodsOnItemSelectedListener implements AdapterView.OnItemSelected
     public void onNothingSelected(AdapterView<?> parent) {
         EpisodesAdapter episodesAdapter;
         if(episodsFragment.isSpecial()) {
-            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(1), episodsFragment.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(1), episodsFragment);
         }else {
-            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(0), episodsFragment.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(0), episodsFragment);
         }
         episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
     }
