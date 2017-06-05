@@ -75,9 +75,10 @@ public class SeasonsUpdateSeasonsList extends AsyncTask<String,Void,List<Season>
     @Override
     protected void onCancelled(List<Season> seasons) {
         this.seasons.getDialog().dismiss();
-        this.seasons.setSeasonAdapter(new SeasonAdapter(seasons,this.seasons.getActivity()));
+        this.seasons.setSeasonAdapter(new SeasonAdapter(seasons));
         this.seasons.getRecyclerView().setAdapter(this.seasons.getSeasonAdapter());
         this.seasons.setSeasons(seasons);
         this.seasons.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        this.seasons.getSwipeRefreshLayout().setRefreshing(false);
     }
 }

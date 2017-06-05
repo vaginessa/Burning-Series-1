@@ -1,7 +1,7 @@
 package to.bs.bruningseriesmeterial.adapter;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Season;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.activity.Episodes;
 
 /**
  * Created by Phillipp on 10.04.2017.
@@ -25,12 +25,10 @@ import to.bs.bruningseriesmeterial.fragments.Episods;
 
 public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder> implements SectionIndexer{
     private List<Season> allseasons;
-    private FragmentActivity fragmentActivity;
     private ArrayList<Integer> mSectionPositions;
 
-    public SeasonAdapter(List<Season> seasons, FragmentActivity activity) {
+    public SeasonAdapter(List<Season> seasons) {
         allseasons = seasons;
-        fragmentActivity = activity;
     }
 
     @Override
@@ -136,9 +134,17 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
 
         @Override
         public void recyclerViewListClicked(View v, int position) {
-            Episods fragment = Episods.newInstance(allseasons.get(position));
-            FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
+            ProgressDialog dialog = new ProgressDialog(MainActivity.getInstance());
+            dialog.setCancelable(false);
+            dialog.setProgressStyle(R.style.Widget_AppCompat_ProgressBar);
+            dialog.setMessage(MainActivity.getInstance().getString(R.string.Episods_wait));
+            dialog.show();
+            Intent myIntent = new Intent(MainActivity.getInstance(),Episodes.class);
+            Season s = allseasons.get(position);
+            s.runNow(dialog,myIntent);
+            myIntent.putExtra("season",s);
+
+
         }
     }
 

@@ -1,13 +1,13 @@
 package to.bs.bruningseriesmeterial.fragments;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +19,6 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Season;
@@ -30,23 +29,21 @@ import to.bs.bruningseriesmeterial.listener.SeasonsOnSuggestionListener;
 
 public class Seasons extends Fragment {
     private static final String URL = "SerienURL";
-    private static MenuItem item;
     private String url;
     private ProgressDialog dialog;
     private List<Season> seasons;
     private SeasonAdapter seasonAdapter;
-    private IndexFastScrollRecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private SearchView searchView;
-    private SearchManager searchManager;
     private SeasonsUpdateSeasonsList updateSeasonsList;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public Seasons() {
         // Required empty public constructor
     }
 
 
-    public static Seasons newInstance(String param1, MenuItem menuItem) {
-        item = menuItem;
+    public static Seasons newInstance(String param1) {
         Seasons fragment = new Seasons();
         Bundle args = new Bundle();
         args.putString(URL, param1);
@@ -75,14 +72,22 @@ public class Seasons extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        item.setChecked(true);
-        MainActivity.getInstance().setTitle(item.getTitle());
         setHasOptionsMenu(true);
         View v = inflater.inflate(R.layout.fragment_seasons, container, false);
-        recyclerView = (IndexFastScrollRecyclerView) v.findViewById(R.id.fragment_seasons_recyclerview);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.fragment_seasons_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                seasons = new ArrayList<>();
+                dialog.show();
+                updateSeasonsList = new SeasonsUpdateSeasonsList(Seasons.this);
+                updateSeasonsList.execute(url);
+            }
+        });
+        recyclerView = (RecyclerView) v.findViewById(R.id.fragment_seasons_recyclerview);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
-        seasonAdapter = new SeasonAdapter(seasons,getActivity());
+        seasonAdapter = new SeasonAdapter(seasons);
         recyclerView.setAdapter(seasonAdapter);
         return v;
     }
@@ -98,14 +103,12 @@ public class Seasons extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.serach, menu);
         MenuItem item = menu.findItem(R.id.grid_default_search);
-        searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
 
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
         MenuItemCompat.setActionView(item, searchView);
 
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setSubmitButtonEnabled(true);
         searchView.setQueryRefinementEnabled(true);
@@ -127,7 +130,7 @@ public class Seasons extends Fragment {
         return dialog;
     }
 
-    public IndexFastScrollRecyclerView getRecyclerView() {
+    public RecyclerView getRecyclerView() {
         return recyclerView;
     }
 
@@ -149,5 +152,9 @@ public class Seasons extends Fragment {
 
     public SearchView getSearchView() {
         return searchView;
+    }
+
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return swipeRefreshLayout;
     }
 }

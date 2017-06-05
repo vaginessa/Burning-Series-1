@@ -1,28 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/fragment_seasons_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="to.bs.bruningseriesmeterial.fragments.Seasons"
-    android:id="@+id/fragment_seasons">
-
-    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
-        android:id="@+id/fragment_seasons_recyclerview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+
+        android:id="@+id/fragment_seasons">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_seasons_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true">
 
 
-    </in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
 
-    <!--<ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_seasons_listview">
+        <!--<ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_seasons_listview">
 
-    </ListView>-->
+        </ListView>-->
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+

@@ -26,15 +26,16 @@ import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.Utils.Season;
+import to.bs.bruningseriesmeterial.activity.Episodes;
 import to.bs.bruningseriesmeterial.adapter.EpisodesAdapter;
 import to.bs.bruningseriesmeterial.asynctasks.EpisodsUpdateList;
 import to.bs.bruningseriesmeterial.listener.EpisodsOnCloseListener;
 import to.bs.bruningseriesmeterial.listener.EpisodsOnItemSelectedListener;
 import to.bs.bruningseriesmeterial.listener.EpisodsOnQueryTextListener;
 
-public class Episods extends Fragment {
+public class EpisodsFragment extends Fragment {
+    private static int pos;
     private boolean special;
-    private int seasons;
 
     private Season season;
     private ProgressDialog dialog;
@@ -47,13 +48,15 @@ public class Episods extends Fragment {
     private SearchView searchView;
     private EpisodsOnQueryTextListener episodsOnQueryTextListener;
     private EpisodsUpdateList updateList;
+    private LinearLayoutManager llm;
 
 
-    public Episods() {
+    public EpisodsFragment() {
     }
 
-    public static Episods newInstance(Season s) {
-        Episods fragment = new Episods();
+    public static EpisodsFragment newInstance(Season s, int position) {
+        pos = position;
+        EpisodsFragment fragment = new EpisodsFragment();
         fragment.season = s;
         return fragment;
     }
@@ -73,12 +76,16 @@ public class Episods extends Fragment {
 
     }
 
+    public static int getPos() {
+        return pos;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.getInstance().setTitle(season.getName());
         setHasOptionsMenu(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm = new LinearLayoutManager(getContext());
 
         final View v = inflater.inflate(R.layout.fragment_episods, container, false);
         spinner = (Spinner) v.findViewById(R.id.frgament_ep_spinner);
@@ -105,16 +112,15 @@ public class Episods extends Fragment {
 
         MenuItem item = menu.findItem(R.id.grid_default_search);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-        searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        MenuItemCompat.setActionView(item, searchView);
+        searchView = new SearchView(((Episodes) getActivity()).getSupportActionBar().getThemedContext());
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        MenuItemCompat.setActionView(item, searchView);
         searchView.setIconified(false);
 
         episodsOnQueryTextListener = new EpisodsOnQueryTextListener(this);
         searchView.setOnQueryTextListener(episodsOnQueryTextListener);
         searchView.setOnCloseListener(new EpisodsOnCloseListener(this));
+        searchView.clearFocus();
     }
 
     public void setEpisodesAdapter(EpisodesAdapter[] episodesAdapter) {
@@ -164,5 +170,9 @@ public class Episods extends Fragment {
 
     public void setSpecial(boolean special) {
         this.special = special;
+    }
+
+    public LinearLayoutManager getLlm() {
+        return llm;
     }
 }

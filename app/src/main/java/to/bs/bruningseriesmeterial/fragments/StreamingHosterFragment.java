@@ -1,7 +1,6 @@
 package to.bs.bruningseriesmeterial.fragments;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,32 +9,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.IOException;
-
 import to.bs.bruningseriesmeterial.asynctasks.StreamingHosterUpdateHosterList;
-import to.bs.bruningseriesmeterial.hosters.HostFetcher;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
-import to.bs.bruningseriesmeterial.Utils.RandomUserAgent;
 import to.bs.bruningseriesmeterial.adapter.HostAdapter;
 
-public class StreamingHoster extends Fragment {
+public class StreamingHosterFragment extends Fragment {
     private static Episode episode;
     private ProgressDialog dialog;
     private RecyclerView recyclerView;
 
     private StreamingHosterUpdateHosterList updateHosterList;
 
-    public StreamingHoster() {
+    public StreamingHosterFragment() {
     }
 
-    public static StreamingHoster newInstance(Episode ep) {
-        StreamingHoster fragment = new StreamingHoster();
+    public static StreamingHosterFragment newInstance(Episode ep) {
+        StreamingHosterFragment fragment = new StreamingHosterFragment();
         episode = ep;
         return fragment;
     }

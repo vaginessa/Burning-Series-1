@@ -1,5 +1,7 @@
 package to.bs.bruningseriesmeterial.adapter;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
@@ -18,7 +20,8 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Season;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.activity.Episodes;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 
 /**
  * Created by Phillipp on 10.04.2017.
@@ -128,9 +131,15 @@ public class ToWatchAdapter extends RecyclerView.Adapter<ToWatchAdapter.ViewHold
 
         @Override
         public void recyclerViewListClicked(View v, int position) {
-            Episods fragment = Episods.newInstance(allseasons.get(position));
-            FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
+            ProgressDialog dialog = new ProgressDialog(MainActivity.getInstance());
+            dialog.setCancelable(false);
+            dialog.setProgressStyle(R.style.Widget_AppCompat_ProgressBar);
+            dialog.setMessage(MainActivity.getInstance().getString(R.string.Episods_wait));
+            dialog.show();
+            Intent myIntent = new Intent(MainActivity.getInstance(),Episodes.class);
+            Season s = allseasons.get(position);
+            s.runNow(dialog,myIntent);
+            myIntent.putExtra("season",s);
         }
     }
 

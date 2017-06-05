@@ -1,7 +1,6 @@
 package to.bs.bruningseriesmeterial.listener;
 
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.Fragment;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -9,11 +8,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import to.bs.bruningseriesmeterial.Utils.Season;
 import to.bs.bruningseriesmeterial.adapter.SeasonAdapter;
 import to.bs.bruningseriesmeterial.fragments.Seasons;
-import to.bs.bruningseriesmeterial.history.SeasonSearchHistory;
 
 /**
  * Created by Phillipp on 20.05.2017.
@@ -35,10 +32,10 @@ public class SeasonsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getName().compareToIgnoreCase(o2.getName());
             }
         });
-        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1, seasons.getActivity());
+        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1);
         seasons.getRecyclerView().setAdapter(seasonAdapter);
-        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(seasons.getContext(), SeasonSearchHistory.AUTHORITY, SeasonSearchHistory.MODE);
-        suggestions.saveRecentQuery(query, null);
+
+
         return false;
     }
 
@@ -51,7 +48,7 @@ public class SeasonsOnQueryTextListener implements SearchView.OnQueryTextListene
                 return o1.getName().compareToIgnoreCase(o2.getName());
             }
         });
-        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1, seasons.getActivity());
+        SeasonAdapter seasonAdapter = new SeasonAdapter(seasons1);
         seasons.getRecyclerView().setAdapter(seasonAdapter);
         return true;
     }

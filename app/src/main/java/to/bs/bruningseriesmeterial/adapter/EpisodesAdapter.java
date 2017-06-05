@@ -1,14 +1,13 @@
 package to.bs.bruningseriesmeterial.adapter;
 
+import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -17,9 +16,9 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.MainActivity;
 import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
-import to.bs.bruningseriesmeterial.fragments.StreamingHoster;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import to.bs.bruningseriesmeterial.activity.StreamingHoster;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
+import to.bs.bruningseriesmeterial.fragments.StreamingHosterFragment;
 
 /**
  * Created by Phillipp on 11.04.2017.
@@ -29,8 +28,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 
     private List<Episode> episodes;
-    private FragmentActivity activity;
-    public EpisodesAdapter(List<Episode> episodeList, FragmentActivity fragmentActivity) {
+    private EpisodsFragment activity;
+    public EpisodesAdapter(List<Episode> episodeList, EpisodsFragment fragmentActivity) {
         episodes = episodeList;
         activity = fragmentActivity;
     }
@@ -96,13 +95,12 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
         @Override
         public void recyclerViewListClicked(View v, int position) {
-            InputMethodManager imm = (InputMethodManager)MainActivity.getInstance().getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            StreamingHoster host = StreamingHoster.newInstance(episodes.get(position));
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_to_left,R.anim.slide_to_right,R.anim.slide_to_left,R.anim.slide_to_right).replace(R.id.flContent, host,"host").addToBackStack("EP").commit();
-            //Episods fragment = Episods.newInstance(episodes.get(position));
+            Intent myIntent = new Intent(activity.getActivity(),StreamingHoster.class);
+            myIntent.putExtra("ep",episodes.get(position));
+            activity.startActivity(myIntent);
+
+            //EpisodsFragment fragment = EpisodsFragment.newInstance(episodes.get(position));
             //FragmentManager fragmentManager = activity.getSupportFragmentManager();
             //fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"EP").addToBackStack("S").commit();
         }

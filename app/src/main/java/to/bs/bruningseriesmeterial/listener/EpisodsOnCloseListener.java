@@ -2,21 +2,21 @@ package to.bs.bruningseriesmeterial.listener;
 
 import android.widget.SearchView;
 
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 
 /**
  * Created by Phillipp on 20.05.2017.
  */
 
 public class EpisodsOnCloseListener implements SearchView.OnCloseListener {
-    private Episods episods;
-    public EpisodsOnCloseListener(Episods episods) {
-        this.episods = episods;
+    private EpisodsFragment episodsFragment;
+    public EpisodsOnCloseListener(EpisodsFragment episodsFragment) {
+        this.episodsFragment = episodsFragment;
     }
 
     @Override
     public boolean onClose() {
-        episods.getSpinner().setSelection(episods.getEpisodsOnQueryTextListener().getId());
+        episodsFragment.getSpinner().setSelection(episodsFragment.getEpisodsOnQueryTextListener().getId());
         return true;
     }
 }

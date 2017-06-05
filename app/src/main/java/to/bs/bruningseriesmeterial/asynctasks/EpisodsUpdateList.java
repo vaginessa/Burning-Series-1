@@ -1,6 +1,10 @@
 package to.bs.bruningseriesmeterial.asynctasks;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
 import org.jsoup.Jsoup;
@@ -15,25 +19,27 @@ import to.bs.bruningseriesmeterial.R;
 import to.bs.bruningseriesmeterial.Utils.Episode;
 import to.bs.bruningseriesmeterial.Utils.RandomUserAgent;
 import to.bs.bruningseriesmeterial.adapter.EpisodesAdapter;
-import to.bs.bruningseriesmeterial.fragments.Episods;
+import to.bs.bruningseriesmeterial.fragments.EpisodsFragment;
 
 /**
  * Created by Phillipp on 20.05.2017.
  */
 
 public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
-    private Episods episods;
+    private EpisodsFragment episodsFragment;
     private int seasons;
+    private int seasons1;
+    private int ep;
 
-    public EpisodsUpdateList(Episods episods) {
-        this.episods = episods;
+    public EpisodsUpdateList(EpisodsFragment episodsFragment) {
+        this.episodsFragment = episodsFragment;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
         Document doc = null;
         try {
-            doc = Jsoup.connect(episods.getSeason().getUrl()).get();
+            doc = Jsoup.connect(episodsFragment.getSeason().getUrl()).get();
             Element body = doc.body();
             boolean special = false;
             seasons = 0;
@@ -43,22 +49,27 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
                 }
                 seasons++;
             }
+            if(special){
+                seasons1 = 2;
+            }else{
+                seasons1 = 1;
+            }
             for (int i = 0; i < seasons; i++) {
                 final int finalI = i;
-                episods.getActivity().runOnUiThread(new Runnable() {
+                episodsFragment.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        episods.getDialog().setMessage(episods.getString(R.string.Episods_wait_season) + " " + finalI);
+                        episodsFragment.getDialog().setMessage(episodsFragment.getString(R.string.Episods_wait_season) + " " + finalI);
                     }
                 });
 
-                if(episods.getEpisods().get(i) == null){
-                    episods.getEpisods().put(i,new ArrayList<Episode>());
+                if(episodsFragment.getEpisods().get(i) == null){
+                    episodsFragment.getEpisods().put(i,new ArrayList<Episode>());
                 }
                 if(special){
-                    doc = Jsoup.connect(episods.getSeason().getUrl()+"/"+i).userAgent(RandomUserAgent.getRandomUserAgent()).get();
+                    doc = Jsoup.connect(episodsFragment.getSeason().getUrl()+"/"+i).userAgent(RandomUserAgent.getRandomUserAgent()).get();
                 }else{
-                    doc = Jsoup.connect(episods.getSeason().getUrl()+"/"+(i+1)).userAgent(RandomUserAgent.getRandomUserAgent()).get();
+                    doc = Jsoup.connect(episodsFragment.getSeason().getUrl()+"/"+(i+1)).userAgent(RandomUserAgent.getRandomUserAgent()).get();
                 }
 
                 body = doc.body();
@@ -77,12 +88,27 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
                     }
 
 
-                    Episode episode = new Episode(epName,EngEpName,link,episods.getSeason());
-                    episode.setWatched(MainActivity.getInstance().getDbHelper().isInsertEpisode(episods.getSeason().getName(),epName));
-                    episods.getEpisods().get(i).add(episode);
+                    Episode episode = new Episode(epName,EngEpName,link, episodsFragment.getSeason());
+                    if (MainActivity.getInstance().getDbHelper().isInsertEpisode(episodsFragment.getSeason().getName(),epName)){
+                        episode.setWatched(true);
+                        if(special){
+                            ep++;
+
+                            seasons1 = i+1;
+
+                        }else{
+                            ep++;
+                            seasons1 = i+1;
+                        }
+                    }
+                    episodsFragment.getEpisods().get(i).add(episode);
+                }
+
+                if(ep == 0){
+                    ep = 0;
                 }
             }
-            episods.setSpecial(special);
+            episodsFragment.setSpecial(special);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,37 +118,45 @@ public class EpisodsUpdateList extends AsyncTask<Void,Void,Void> {
     }
     @Override
     protected void onCancelled(Void aVoid) {
-        episods.getArrayAdapter().add(episods.getActivity().getString(R.string.ep_spinner_search));
+        episodsFragment.getArrayAdapter().add(episodsFragment.getActivity().getString(R.string.ep_spinner_search));
 
-        if(episods.isSpecial()){
-            episods.getArrayAdapter().add(episods.getActivity().getString(R.string.ep_spinner_special));
+        if(episodsFragment.isSpecial()){
+            episodsFragment.getArrayAdapter().add(episodsFragment.getActivity().getString(R.string.ep_spinner_special));
             for (int i = 0; i < (seasons-1); i++) {
-                episods.getArrayAdapter().add(episods.getActivity().getString(R.string.ep_spinner) + " " +  (i+1));
+                episodsFragment.getArrayAdapter().add(episodsFragment.getActivity().getString(R.string.ep_spinner) + " " +  (i+1));
             }
         }else{
             for (int i = 0; i < seasons; i++) {
-                episods.getArrayAdapter().add(episods.getActivity().getString(R.string.ep_spinner) + " " + (i+1));
+                episodsFragment.getArrayAdapter().add(episodsFragment.getActivity().getString(R.string.ep_spinner) + " " + (i+1));
             }
         }
 
         EpisodesAdapter episodesAdapter;
-        if(episods.isSpecial()){
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(1),episods.getActivity());
+        if(episodsFragment.isSpecial()){
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(1), episodsFragment);
         }else{
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(0),episods.getActivity());
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(0), episodsFragment);
         }
-        episods.getSpinner().setAdapter(episods.getArrayAdapter());
-        episods.getRecyclerView().setAdapter(episodesAdapter);
-        if(episods.isSpecial()) {
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(1),episods.getActivity());
-            episods.getSpinner().setSelection(2);
+        episodsFragment.getSpinner().setAdapter(episodsFragment.getArrayAdapter());
+        episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
+        if(episodsFragment.isSpecial()) {
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(1), episodsFragment);
+            episodsFragment.getSpinner().setSelection(2);
         }else {
-            episodesAdapter = new EpisodesAdapter(episods.getEpisods().get(0),episods.getActivity());
-            episods.getSpinner().setSelection(1);
+            episodesAdapter = new EpisodesAdapter(episodsFragment.getEpisods().get(0), episodsFragment);
+            episodsFragment.getSpinner().setSelection(1);
         }
-        episods.getRecyclerView().setAdapter(episodesAdapter);
-        episods.getDialog().dismiss();
-        this.episods.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        episodsFragment.getRecyclerView().setAdapter(episodesAdapter);
+        episodsFragment.getDialog().dismiss();
+        this.episodsFragment.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        episodsFragment.getSpinner().setSelection(seasons1);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                episodsFragment.getLlm().scrollToPositionWithOffset(ep,-2);
+            }
+        }, 250);
 
     }
 }

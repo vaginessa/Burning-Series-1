@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import to.bs.bruningseriesmeterial.Utils.RandomUserAgent;
 import to.bs.bruningseriesmeterial.adapter.HostAdapter;
-import to.bs.bruningseriesmeterial.fragments.StreamingHoster;
+import to.bs.bruningseriesmeterial.fragments.StreamingHosterFragment;
 import to.bs.bruningseriesmeterial.hosters.HostFetcher;
 
 /**
@@ -18,24 +18,24 @@ import to.bs.bruningseriesmeterial.hosters.HostFetcher;
  */
 
 public class StreamingHosterUpdateHosterList extends AsyncTask {
-    private StreamingHoster streamingHoster;
+    private StreamingHosterFragment streamingHosterFragment;
 
-    public StreamingHosterUpdateHosterList(StreamingHoster streamingHoster) {
-        this.streamingHoster = streamingHoster;
+    public StreamingHosterUpdateHosterList(StreamingHosterFragment streamingHosterFragment) {
+        this.streamingHosterFragment = streamingHosterFragment;
     }
 
     @Override
     protected Object doInBackground(Object[] params) {
         try {
 
-            Document doc = Jsoup.connect("https://bs.to/"+streamingHoster.getEpisode().getLink()).userAgent(RandomUserAgent.getRandomUserAgent()).get();
+            Document doc = Jsoup.connect("https://bs.to/"+ streamingHosterFragment.getEpisode().getLink()).userAgent(RandomUserAgent.getRandomUserAgent()).get();
             Element body = doc.body();
             for (Element hosts : body.getElementsByClass("Hoster-tabs")) {
                 for (Element host : hosts.getElementsByTag("li")) {
                     Document documentHost = Jsoup.connect("https://bs.to/"+host.getElementsByTag("a").first().attr("href")).get();
                     String url = documentHost.body().getElementsByClass("Hoster-player").first().attr("href");
-                    HostFetcher hosterFetcher = new HostFetcher(url,host.text(),streamingHoster.getEpisode());
-                    streamingHoster.getEpisode().getHosters().add(hosterFetcher);
+                    HostFetcher hosterFetcher = new HostFetcher(url,host.text(), streamingHosterFragment.getEpisode());
+                    streamingHosterFragment.getEpisode().getHosters().add(hosterFetcher);
                 }
             }
         } catch (IOException e) {
@@ -47,7 +47,7 @@ public class StreamingHosterUpdateHosterList extends AsyncTask {
 
     @Override
     protected void onCancelled(Object o) {
-        streamingHoster.getRecyclerView().setAdapter(new HostAdapter(streamingHoster.getEpisode().getHosters()));
-        streamingHoster.getDialog().dismiss();
+        streamingHosterFragment.getRecyclerView().setAdapter(new HostAdapter(streamingHosterFragment.getEpisode().getHosters()));
+        streamingHosterFragment.getDialog().dismiss();
     }
 }

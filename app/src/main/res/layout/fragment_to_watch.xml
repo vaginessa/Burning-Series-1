@@ -1,21 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_to_watch_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="to.bs.bruningseriesmeterial.fragments.ToWatch">
+    >
+    <RelativeLayout
 
-    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
-        android:id="@+id/fragment_to_watch_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarSize="10dp"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
-        android:scrollbars="vertical"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_to_watch_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="10dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true">
 
 
-    </in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+

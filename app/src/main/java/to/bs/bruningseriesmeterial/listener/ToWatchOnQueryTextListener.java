@@ -11,7 +11,6 @@ import java.util.List;
 import to.bs.bruningseriesmeterial.Utils.Season;
 import to.bs.bruningseriesmeterial.adapter.ToWatchAdapter;
 import to.bs.bruningseriesmeterial.fragments.ToWatch;
-import to.bs.bruningseriesmeterial.history.SeasonSearchHistory;
 
 /**
  * Created by Phillipp on 20.05.2017.
@@ -35,8 +34,6 @@ public class ToWatchOnQueryTextListener implements SearchView.OnQueryTextListene
         });
         ToWatchAdapter seasonAdapter = new ToWatchAdapter(seasons1, toWatch.getActivity());
         toWatch.getRecyclerView().setAdapter(seasonAdapter);
-        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(toWatch.getContext(), SeasonSearchHistory.AUTHORITY, SeasonSearchHistory.MODE);
-        suggestions.saveRecentQuery(query, null);
         return true;
     }
 
