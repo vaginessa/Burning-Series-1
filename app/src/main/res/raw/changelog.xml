@@ -30,6 +30,7 @@
     </changelogversion>
     <changelogversion versionName="2.0" changeDate="Juli 6,2017">
         <changelogtext>[b]Neu![/b] Navigation</changelogtext>
+        <changelogtext>[b]Entfernt![/b] Urlaubs Modus bis zu Version 3.0 deaktiviert/entfert</changelogtext>
     </changelogversion>
 
 
