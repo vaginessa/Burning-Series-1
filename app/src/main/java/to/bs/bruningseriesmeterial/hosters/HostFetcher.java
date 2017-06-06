@@ -105,7 +105,7 @@ public class HostFetcher {
                 public void run() {
                     CapatchCheck fragment = CapatchCheck.newInstance(u,episode);
                     FragmentManager fragmentManager = MainActivity.getInstance().getSupportFragmentManager();
-                    //fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"Captcha").addToBackStack("S").commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"Captcha").addToBackStack("S").commit();
                 }
             });
         }else if(u.contains("openload")){
@@ -114,7 +114,7 @@ public class HostFetcher {
                 public void run() {
                     OpenLoad fragment = OpenLoad.newInstance(u,episode);
                     FragmentManager fragmentManager = MainActivity.getInstance().getSupportFragmentManager();
-                    //fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"OpenLoad").addToBackStack("S").commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContent, fragment,"OpenLoad").addToBackStack("S").commit();
                 }
             });
         }else{
